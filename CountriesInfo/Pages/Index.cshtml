@@ -1,0 +1,98 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Countries Information</h1>
+    <div class="container mt-4" style="max-width: 200px">
+        <label>Countries: </label>
+        <select id="countriesDropdown" onchange="onChangeCountry()" class="form-select mb-3" aria-label="Default select example">
+            <option value="">Select a country</option>
+            @foreach (var country in Model.countriesLst)
+            {
+                <option value="@country.Name">@country.Name</option>
+            }
+        </select>
+        <label>States: </label>
+        <select id="statesDropdown" onchange="onChangeState()" class="form-select mb-3" aria-label="Default select example" disabled>
+            <option value=""></option>
+        </select>
+        <label>Cities: </label>
+        <select id="citiesDropdown" class="form-select mb-3" aria-label="Default select example" disabled>
+            <option value=""></option>
+        </select>
+    </div>
+
+</div>
+<script>
+
+    function onChangeCountry() {
+        var selectedCountry = document.getElementById('countriesDropdown').value;
+
+        // Clean states and cities dropdown.
+        var stateDropdown = document.getElementById('statesDropdown');
+        stateDropdown.innerHTML = ""
+        var citiesDropdown = document.getElementById('citiesDropdown');
+        citiesDropdown.innerHTML = ""
+
+
+        if (selectedCountry && selectedCountry.length > 0) {
+            // The country selected in the dropdown is compared with the model to filter the states.
+            var country = @Html.Raw(Json.Serialize(Model.countriesLst));
+            states = country.find(x => x.name === selectedCountry).states;
+
+            // The select options are filled with the information obtained.
+            var defaultState = document.createElement('option');
+            defaultState.text = "Select a State";
+            defaultState.value = "";
+            stateDropdown.add(defaultState);
+            states.forEach(function (state) {
+                var option = document.createElement('option');
+                option.text = state.name;
+                option.value = state.name;
+                stateDropdown.add(option);
+            });
+            stateDropdown.disabled = false;
+        }
+        else {
+            // If a country is not selected, dropdowns are disabled.
+            stateDropdown.disabled = true;
+            citiesDropdown.disabled = true;
+        }
+    }
+
+    function onChangeState() {
+        var selectedCountry = document.getElementById('countriesDropdown').value;
+        var selectedState = document.getElementById('statesDropdown').value;
+        
+        // Clean cities dropdown.
+        var citiesDropdown = document.getElementById('citiesDropdown');
+        citiesDropdown.innerHTML = ""
+
+        if (selectedState && selectedState.length > 0) {
+            // The state selected in the dropdown is compared with the model to filter the cities.
+            var country = @Html.Raw(Json.Serialize(Model.countriesLst));
+            states = country.find(x => x.name === selectedCountry).states;
+            cities = states.find(x => x.name === selectedState).cities;
+
+            // The select options are filled with the information obtained.
+            var defaultCity = document.createElement('option');
+            defaultCity.text = "Select a City";
+            defaultCity.value = "";
+            citiesDropdown.add(defaultCity);
+            cities.forEach(function (city) {
+                var option = document.createElement('option');
+                option.text = city.name;
+                option.value = city.name;
+                citiesDropdown.add(option);
+            });
+            citiesDropdown.disabled = false;
+        }
+        else {
+            // If a state is not selected, cities dropdown is disabled.
+            citiesDropdown.disabled = true;
+        }
+    }
+</script>

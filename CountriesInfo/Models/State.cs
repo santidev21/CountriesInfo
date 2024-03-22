@@ -3,7 +3,7 @@
     public class State
     {
         public string Name { get; }
-        public List<City> Cities { get; set; }
+        public List<City> Cities { get; }
 
         public State(string name)
         {

@@ -38,7 +38,6 @@ namespace CountriesInfo.Pages
                 // The country name is extracted from the string and the country object is created.
                 string countryName = Regex.Match(currentCountry.Value, countryNamePattern).ToString();
                 Country country = new Country(countryName);
-                List<State> states = new List<State>();
 
                 // States are extracted using regular expressions and looped through.
                 var statesMatches = Regex.Matches(currentCountry.Value, statesPattern).ToArray();
@@ -47,21 +46,18 @@ namespace CountriesInfo.Pages
                     // The state name is extracted from the string and the state object is created.
                     string stateName = Regex.Match(currentState.Value, stateNamePattern).ToString();
                     State state = new State(stateName);
-                    List<City> cities = new List<City>();
 
                     // Cities are extracted using regular expressions and looped through.
                     var citiesMatches = Regex.Matches(currentState.Value, citiesPattern).ToArray();
                     foreach(var currentCity in citiesMatches)
                     {
-                        // The city name is extracted from the string and the state city is created.
+                        // The city name is extracted from the string and the city is created.
                         string cityName = currentCity.Value;
                         City city = new City(cityName);
-                        cities.Add(city);
+                        state.addCity(city);
                     }
-                    state.Cities = cities;
-                    states.Add(state);
+                    country.addState(state);
                 }
-                country.States = states;
                 countriesLst.Add(country);
             }
         }

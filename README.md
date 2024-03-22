@@ -1,6 +1,10 @@
 # CountriesInfo
 
-This program consists of solving a proposed exercise which consists of a string that contains information about countries, states and cities denoted as follows:
+This program consists of solving a proposed exercise which consists of a string that contains information about countries, states and cities, separated by characters as shown below:
+```csharp
+string countriesStr = "~IN*TN>CHENNAI>MADURAI>KOVAI>ERODE*AP>ONGOLE>TENALI>VIZAG*TS>HYDERABAD>WARANGAL>VIKARABAD~USA*ALASKA>JUNEAU>SITKA>KENAI~CHINA*HAINAN>HAIKOU>SANYA>DONGFANG*HUNAN>CHANGHSA>YUEYANG>CHANGDE";
+```
+The characters are denoted as follows:
 - \~ denotes country
 - \* denotes State
 - \> denotes city
@@ -29,7 +33,7 @@ By correctly separating the information, work using object-oriented programming 
     public class State
     {
         public string Name { get; }
-        public List<City> Cities { get; set; }
+        public List<City> Cities { get; }
 
         public State(string name)
         {
@@ -46,7 +50,7 @@ By correctly separating the information, work using object-oriented programming 
     public class Country
     {
         public string Name { get; }
-        public List<State> States { get; set; }
+        public List<State> States { get; }
 
         public Country(string name)
         {
